@@ -1,0 +1,22 @@
+.feedback {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .title {
+    font-size: 45px;
+    font-weight: 700;
+    color: rgb(0, 5, 5);
+  }
+
+  .feedback_button {
+    padding: 5px 10px;
+    margin: 5px;
+    text-transform: capitalize;
+    border-color: black;
+    background-color: chartreuse;
+    color: blue;
+    border-radius: 50px;
+    animation: alternate-reverse; 
+  }

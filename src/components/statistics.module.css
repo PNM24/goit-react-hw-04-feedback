@@ -1,0 +1,23 @@
+.statistics {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .statistics_title {
+    font-size: 30px;
+    text-align: center;
+    color: #080106;
+  }
+  .statistics_list {
+    list-style-type: none;
+    padding: 0;
+    margin-left: auto;
+    margin-right: auto;
+    color: #2629d1;
+  }
+  .statistics_name {
+    text-transform: capitalize;
+  }
+  .statistics_item {
+    font-size: 20px;
+  }
