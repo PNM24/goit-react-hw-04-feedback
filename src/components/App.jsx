@@ -1,65 +1,68 @@
-import React, { Component } from 'react';
-import Feedback from './Feedback';
-import Statistics from './statistics';
-import Notification from './Notification';
+import React from "react";
+import { useState } from "react";
+import { Statistics } from "./Statistics/Statistics";
+import { Feedback } from "./Feedback/Feedback";
+import { Section } from "./Section/Section";
+import { Notification } from "./Notification/Notification";
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+export const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
-  leaveFeedback = e => {
-    const currentBtnValue = e.currentTarget.value;
-    this.setState(prevState => ({
-      ...prevState,
-      [currentBtnValue]: prevState[currentBtnValue] + 1,
-    }));
-  };
-
-  countFeedback = () => {
-    const valuesArr = Object.values(this.state);
-    return valuesArr.reduce((acc, val) => {
-      acc += val;
-      return acc;
-    });
-  };
-  countZero = () => {
-    if (
-      this.state.good === 0 &&
-      this.state.neutral === 0 &&
-      this.state.bad === 0
-    ) {
-      return true;
-    } else {
-      return false;
+  const handleFeedback = (e) => {
+    if (e === "Good") {
+      setGood(good + 1);
+    } else if (e === "Neutral") {
+      setNeutral(neutral + 1);
+    } else if (e === "Bad") {
+      setBad(bad + 1);
     }
   };
-  countPercentage = () => {
-    return Math.round((this.state.good / this.countFeedback()) * 100);
+
+  const totalFeedback = () => {
+    let total = good + neutral + bad;
+    return total;
   };
 
-  render() {
-    const buttons = Object.keys(this.state);
-    return (
-      <div className="App">
-        <section>
-          <Feedback
-            options={buttons}
-            leaveFeedback={this.leaveFeedback}
+  const positivePercentage = () => {
+    if (totalFeedback() === 0) {
+      return 0;
+    }
+    return Math.round((good / totalFeedback()) * 100);
+  };
+
+  return (
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: 40,
+        color: "#010101",
+      }}>
+      <Section title="Please leave feedback">
+        <Feedback
+          options={["Good", "Neutral", "Bad"]}
+          onLeaveFeedback={handleFeedback}
+        />{" "}
+      </Section>
+
+      <Section title="Statistics">
+        {totalFeedback() !== 0 ? (
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={totalFeedback()}
+            positivePercentage={positivePercentage()}
           />
-          {this.countZero() ? (
-            <Notification message="No feedback given" />
-          ) : (
-            <Statistics
-              state={this.state}
-              total={this.countFeedback()}
-              positivePercentage={this.countPercentage()}
-            />
-          )}
-        </section>
-      </div>
-    );
-  }
-}
+        ) : (
+          <Notification message="No feedback given"></Notification>
+        )}
+      </Section>
+    </div>
+  );
+};

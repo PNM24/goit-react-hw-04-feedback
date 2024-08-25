@@ -1,5 +1,5 @@
 import propTypes from "prop-types";
-import style from "Feedback.module.css";
+import style from "./Feedback.module.css";
 
 export const Feedback = ({ options, onLeaveFeedback }) => (
   <div>
